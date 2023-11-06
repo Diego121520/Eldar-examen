@@ -1,0 +1,195 @@
+ <h1 class="text-center mb-5 mt-4">Invitaciones de cumpleaños</h1>
+
+<div class="container">
+
+  <!-- Añadir invitado -->
+  <div class="row border">
+    <h4 class="mb-4 mt-2">Añadir invitado</h4>
+    
+    <form (ngSubmit)="addGuest()">
+      <div class="row justify-content-center text-center mb-2">
+
+        <div class="col-2">
+          <input placeholder="Nombre" class="form-control" type="text" name="firstName" required
+            [(ngModel)]="newGuest.firstName" />
+        </div>
+        <div class="col-2">
+          <input placeholder="Apellido" class="form-control" type="text" name="lastName" required
+            [(ngModel)]="newGuest.lastName" />
+        </div>
+        <div class="col-2">
+          <input placeholder="Documento" class="form-control" type="text" name="dni" required 
+          minlength="7" maxlength="10"
+            [(ngModel)]="newGuest.dni" />
+        </div>
+        <div class="col-2">
+          <input class="form-control" type="date" name="birthDate" required
+            [(ngModel)]="newGuest.birthDate" />
+        </div>
+        <div class="col-1">
+          <button class="btn btn-primary" type="submit">Añadir</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+  <!-- A confirmar -->
+  <div class="row justify-content-center text-center border mt-2 mb-2">
+    <div class="col-6 mt-4"
+      cdkDropList
+      #unconfirmed="cdkDropList"
+      [cdkDropListData]="unconfirmedGuestList"
+      [cdkDropListConnectedTo]="[confirmed]"
+      (cdkDropListDropped)="drop($event)">
+      <h4 class="mb-4">A confirmar</h4>
+
+      <div class="row justify-content-center text-center">
+
+        <div cdkDrag *ngFor="let guest of unconfirmedGuestList" class="col-3 mb-4 cards-container">
+          <div class="card">
+            <div class="card-body">
+              <h5 *ngIf="!editStates[guest.id]" class="card-title">
+                <strong>{{guest.firstName + " " + guest.lastName}}</strong>
+              </h5>
+
+              <div class="row mb-1">
+                <div class="col-6">
+                  <input *ngIf="editStates[guest.id]" placeholder="Nombre"
+                    class="form-control" [(ngModel)]="guest.firstName" />
+                </div>
+                <div class="col-6">
+                  <input *ngIf="editStates[guest.id]" placeholder="Apellido"
+                    class="form-control" [(ngModel)]="guest.lastName" />
+                </div>
+
+              </div>
+
+              <p *ngIf="!editStates[guest.id]" class="card-title">
+                <strong>DNI:</strong>
+                {{guest.dni}}
+              </p>
+              <input *ngIf="editStates[guest.id]" placeholder="Documento"
+                class="form-control mb-1" [(ngModel)]="guest.dni" />
+
+              <p *ngIf="!editStates[guest.id]" class="card-title">
+                <strong>Nacimiento:</strong>
+                {{guest.birthDate}}
+              </p>
+              <input *ngIf="editStates[guest.id]" type="date"
+                class="form-control" [(ngModel)]="guest.birthDate" />
+
+              <div class="row">
+
+                <div class="col-6">
+                  <button *ngIf="!editStates[guest.id]"
+                    (click)="toggleEdit(guest.id)"
+                    class="btn btn-sm btn-primary action-button">Editar</button>
+                  <button *ngIf="editStates[guest.id]"
+                    (click)="editGuest(guest.id, guest)"
+                    class="btn btn-sm btn-success edit-button">Aplicar</button>
+                </div>
+
+                <div class="col-6">
+                  <button *ngIf="!editStates[guest.id]"
+                    (click)="deleteGuest(guest.id)"
+                    class="btn btn-sm btn-danger action-button">Eliminar</button>
+                  <button *ngIf="editStates[guest.id]"
+                    (click)="toggleEdit(guest.id)"
+                    class="btn btn-sm btn-danger edit-button">Cancelar</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Confirmados -->
+    <div class="col-6 mt-4"
+      cdkDropList
+      #confirmed="cdkDropList"
+      [cdkDropListData]="confirmedGuestList"
+      [cdkDropListConnectedTo]="[unconfirmed]"
+      (cdkDropListDropped)="drop($event)">
+      <div class="row justify-content-center text-center">
+
+        <div class="col-4">
+          <h4 class="mb-4">Confirmados</h4>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-success mb-2" (click)="confirmAssist()">Invitar</button>
+        </div>
+
+      </div>
+
+      <div class="row justify-content-center text-center">
+
+        <div cdkDrag *ngFor="let guest of confirmedGuestList"
+          class="col-3 mb-4 cards-container">
+          <div class="card">
+            <div class="card-body">
+              <h5 *ngIf="!editStates[guest.id]" class="card-title">
+                <strong>{{guest.firstName + " " + guest.lastName}}</strong>
+              </h5>
+
+              <div class="row mb-1">
+                <div class="col-6">
+                  <input *ngIf="editStates[guest.id]" placeholder="Nombre"
+                    class="form-control" />
+                </div>
+                <div class="col-6">
+                  <input *ngIf="editStates[guest.id]" placeholder="Apellido"
+                    class="form-control" />
+                </div>
+              </div>
+
+              <p *ngIf="!editStates[guest.id]" class="card-title">
+                <strong>DNI:</strong>
+                {{guest.dni}}
+              </p>
+              <input *ngIf="editStates[guest.id]" placeholder="Documento"
+                class="form-control mb-1" />
+
+              <p *ngIf="!editStates[guest.id]" class="card-title">
+                <strong>Nacimiento:</strong>
+                {{guest.birthDate}}
+              </p>
+
+              <input *ngIf="editStates[guest.id]" type="date"
+                class="form-control" />
+
+              <div class="row">
+
+                <div class="col-6">
+                  <button *ngIf="!editStates[guest.id]"
+                    (click)="toggleEdit(guest.id)"
+                    class="btn btn-sm btn-primary action-button">Editar</button>
+                  <button *ngIf="editStates[guest.id]"
+                    (click)="editGuest(guest.id, guest)"
+                    class="btn btn-sm btn-success edit-button">Aplicar</button>
+                </div>
+
+                <div class="col-6">
+                  <button *ngIf="!editStates[guest.id]"
+                    (click)="deleteGuest(guest.id)"
+                    class="btn btn-sm btn-danger action-button">Eliminar</button>
+                  <button *ngIf="editStates[guest.id]"
+                    (click)="toggleEdit(guest.id)"
+                    class="btn btn-sm btn-danger edit-button">Cancelar</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
