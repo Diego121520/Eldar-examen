@@ -21,18 +21,18 @@ Este repositorio contiene mi solución para el examen técnico de Java Full Stac
 
 ## Instrucciones de Instalación
 
-1. Clona este repositorio en tu máquina local:
+1. Clonar este repositorio en la máquina local
 
-2. Configura la base de datos MySQL según las especificaciones en `application.properties`:
+2. Configurar la base de datos MySQL según las especificaciones en `application.properties`:
 url=jdbc:mysql://localhost:3306/birthday_management
 
 username=root
 
 password=
 
-3. Ejecuta el backend de Spring Boot y el servidor de Angular.
+3. Ejecutar el backend de Spring Boot y el servidor de Angular.
 
-4. Accede a la aplicación en tu navegador: http://localhost:4200
+4. Acceder a la aplicación en el navegador: http://localhost:4200
 
 ## Estructura del Proyecto 
 
