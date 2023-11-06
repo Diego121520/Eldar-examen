@@ -1,4 +1,5 @@
 # Eldar-examen
+Este repositorio contiene mi solución para el examen técnico de Java Full Stack con Angular.
 
 ## Capturas de pantalla
 
