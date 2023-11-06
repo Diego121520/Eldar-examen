@@ -23,34 +23,37 @@ public class GuestRestController {
 
     @GetMapping("/all")
     public ResponseEntity<List<GuestDTO>> findAll() {
+        log.info("GuestRestController.findAll");
         return ResponseEntity.ok(guestService.findAll());
     }
 
     @GetMapping("/confirmed")
     public ResponseEntity<List<GuestDTO>> getAllConfirmed() {
+        log.info("GuestRestController.getAllConfirmed");
         return ResponseEntity.ok(guestService.getAllByConfirmation(true));
     }
 
     @GetMapping("/unconfirmed")
     public ResponseEntity<List<GuestDTO>> getAllUnconfirmed() {
+        log.info("GuestRestController.getAllUnconfirmed");
         return ResponseEntity.ok(guestService.getAllByConfirmation(false));
     }
 
     @PostMapping("/create")
     public ResponseEntity<Guest> createGuest(@RequestBody @Validated CreateGuestRequestDTO requestDTO) {
-
+        log.info("GuestRestController.createGuest - request {} ", requestDTO.toString());
         return ResponseEntity.ok(guestService.createGuest(requestDTO));
     }
 
     @PutMapping("/update")
     public ResponseEntity<Boolean> editGuest(@RequestBody @Validated List<UpdateGuestRequestDTO> requestDTO) {
-
+        log.info("GuestRestController.editGuest - size ({})", requestDTO.size());
         return ResponseEntity.ok(guestService.editGuest(requestDTO));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Boolean> deleteGuest(@PathVariable Long id) {
-
+        log.info("GuestRestController.deleteGuest - id ({})", id);
         return ResponseEntity.ok(guestService.deleteGuest(id));
     }
 
